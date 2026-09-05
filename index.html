@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring Usia Pakai Part Mesin - PKS PT BPSJ SS2 POM</title>
+<style>
+:root{
+  --primary:#0284c7; --primary-dark:#0369a1; --success:#10b981; --success-dark:#059669;
+  --bg-color:#f8fafc; --card-bg:#ffffff; --text-main:#0f172a; --text-muted:#475569; --border-color:#cbd5e1;
+}
+*{box-sizing:border-box;}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;background:var(--bg-color);color:var(--text-main);margin:0;padding:20px 10px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.container{max-width:1350px;margin:auto;background:var(--card-bg);padding:25px;border-radius:14px;box-shadow:0 4px 25px rgba(0,0,0,0.06);}
+.header-title{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);color:#fff;border-radius:12px;padding:22px 25px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;box-shadow:0 4px 15px rgba(15,23,42,0.15);}
+.header-left h2{margin:0 0 6px 0;font-size:26px;font-weight:800;letter-spacing:-0.5px;color:#fff;}
+.factory-name{font-size:15px;font-weight:700;color:#38bdf8;letter-spacing:0.8px;}
+.author-glow{font-size:13px;font-weight:600;color:#93c5fd;margin-top:4px;}
+.header-right p{margin:0;color:#cbd5e1;font-size:13px;text-align:right;}
+.sync-banner{background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;font-size:12.5px;padding:10px 16px;border-radius:10px;margin-bottom:20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.section{margin-bottom:26px;border-radius:12px;padding:20px;background:#fff;border:1px solid var(--border-color);box-shadow:0 2px 10px rgba(0,0,0,0.03);}
+.section-dashboard{border-top:5px solid #6366f1;}
+.section-press{border-top:5px solid #22c55e;}
+.section-rm{border-top:5px solid #0284c7;}
+.section-efb{border-top:5px solid #eab308;}
+.section-shredder{border-top:5px solid #ec4899;}
+.section-header-flex{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:12px;border-bottom:1px solid #f1f5f9;padding-bottom:12px;}
+.section-header-left h3{color:var(--text-main);margin:0 0 4px 0;font-size:18px;font-weight:700;}
+.section-desc{font-size:12.5px;color:var(--text-muted);margin:0;}
+.section-header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.update-date-box{font-size:12.5px;color:var(--text-muted);display:flex;align-items:center;gap:6px;background:#f8fafc;padding:6px 12px;border-radius:8px;border:1px solid var(--border-color);font-weight:600;}
+.update-date-box input[type="date"]{padding:4px 8px;font-size:12px;border:1px solid var(--border-color);border-radius:6px;background:#fff;color:var(--text-main);font-weight:500;}
+.btn-print{background:#0284c7;color:#fff;border:none;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer;border-radius:7px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 5px rgba(2,132,199,0.2);}
+.btn-print:hover{background:#0369a1;}
+.btn-container{text-align:center;margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-save{background:var(--success);color:#fff;border:none;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;border-radius:10px;box-shadow:0 4px 14px rgba(16,185,129,0.25);}
+.btn-save:hover{background:var(--success-dark);}
+.btn-export{background:#4f46e5;color:#fff;border:none;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;border-radius:10px;box-shadow:0 4px 14px rgba(79,70,229,0.25);}
+.btn-export:hover{background:#4338ca;}
+.btn-restore{background:#f59e0b;color:#fff;border:none;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;border-radius:10px;box-shadow:0 4px 14px rgba(245,158,11,0.25);}
+.btn-restore:hover{background:#d97706;}
+.btn-mini{border:none;border-radius:6px;padding:5px 8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.btn-ganti{background:#0284c7;color:#fff;}
+.btn-ganti:hover{background:#0369a1;}
+.btn-riwayat{background:#e2e8f0;color:#334155;}
+.btn-riwayat:hover{background:#cbd5e1;}
+.table-responsive{width:100%;overflow-x:auto;border-radius:8px;border:1px solid var(--border-color);}
+table{width:100%;border-collapse:collapse;min-width:980px;background:#fff;}
+th,td{border:1px solid var(--border-color);padding:8px 7px;text-align:center;font-size:12.5px;}
+th{background:#f1f5f9;color:#334155;font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:0.5px;}
+tr.group-header td{background:#bae6fd;text-align:left;font-weight:800;font-size:15.5px;color:#0c4a6e;padding:10px 12px;}
+tr.group-header input[type="text"]{display:inline-block;width:130px;margin-left:8px;font-weight:700;font-size:13px;}
+.part-name{text-align:left;font-weight:800;padding-left:10px;color:#1e293b;font-size:14px;background:#f1f5f9;}
+input[type="date"],input[type="text"],input[type="number"]{width:100%;padding:6px 7px;border:1px solid var(--border-color);border-radius:6px;font-size:12.5px;color:var(--text-main);background:#fff;text-align:center;}
+input[type="date"]:focus,input[type="text"]:focus,input[type="number"]:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(2,132,199,0.15);}
+textarea.catatan{width:100%;min-height:34px;resize:vertical;border:1px solid var(--border-color);border-radius:6px;font-size:12px;padding:6px;font-family:inherit;}
+.usia-badge,.est-badge{font-weight:700;font-size:12.5px;padding:5px 9px;border-radius:6px;display:inline-block;}
+.usia-aman{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;}
+.usia-warning{background:#fefce8;color:#a16207;border:1px solid #fde047;}
+.usia-danger{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.usia-invalid{background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;font-size:11px;}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:6px;font-size:11.5px;font-weight:700;white-space:nowrap;}
+.status-aman{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;}
+.status-warning{background:#fef9c3;color:#854d0e;border:1px solid #fde047;}
+.status-danger{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;}
+.status-invalid{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;}
+.dash-counts{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+.dash-box{flex:1;min-width:130px;border-radius:10px;padding:12px 14px;text-align:center;font-weight:700;}
+.dash-danger{background:#fee2e2;color:#b91c1c;}
+.dash-warning{background:#fef9c3;color:#854d0e;}
+.dash-aman{background:#ecfdf5;color:#047857;}
+.dash-invalid{background:#f1f5f9;color:#64748b;}
+.dash-box .num{font-size:22px;display:block;}
+.priority-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border-color);border-radius:8px;margin-bottom:8px;flex-wrap:wrap;cursor:pointer;background:#fff;}
+.priority-item:hover{background:#f8fafc;}
+.priority-left{font-size:13px;font-weight:600;color:var(--text-main);}
+.priority-left small{display:block;color:var(--text-muted);font-weight:500;font-size:11.5px;}
+.priority-empty{color:var(--text-muted);font-size:13px;padding:10px 0;}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.modal-overlay.active{display:flex;}
+.modal-box{background:#fff;border-radius:14px;padding:22px;max-width:480px;width:100%;max-height:80vh;overflow:auto;}
+.modal-box h4{margin:0 0 12px 0;font-size:16px;}
+.modal-box table{min-width:0;width:100%;}
+.modal-close{background:#e2e8f0;border:none;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;float:right;margin-top:12px;}
+.print-header,.print-footer{display:none;}
+@media print{
+  body{background:#fff;padding:0;margin:0;}
+  .container{box-shadow:none;padding:0;max-width:100%;}
+  .header-title,.btn-container,.btn-print,.no-print,.app-footer,.sync-banner,.btn-mini{display:none !important;}
+  .section{border:none !important;box-shadow:none !important;padding:0 !important;margin-bottom:0 !important;}
+  .print-header{display:block;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:15px;}
+  .print-header-table{width:100%;border:none;}
+  .print-header-table td{border:none;text-align:left;padding:2px 0;}
+  .print-title{font-size:18px;font-weight:bold;text-transform:uppercase;margin:0;}
+  .print-sub{font-size:12px;color:#333;margin:2px 0 0 0;}
+  table{min-width:100% !important;border:1px solid #000 !important;}
+  th,td{border:1px solid #000 !important;padding:5px 4px !important;font-size:10px !important;}
+  th{background:#f0f0f0 !important;color:#000 !important;}
+  input,textarea{border:none !important;background:transparent !important;padding:0 !important;font-size:10px !important;font-weight:bold !important;color:#000 !important;}
+  .usia-badge,.status-badge,.est-badge{background:none !important;border:none !important;color:#000 !important;padding:0 !important;font-weight:bold !important;}
+  .print-footer{display:block;margin-top:30px;page-break-inside:avoid;}
+  .sig-table{width:100%;border:none !important;}
+  .sig-table td{border:none !important;text-align:center;vertical-align:bottom;height:70px;font-size:11px !important;}
+}
+@media (max-width:768px){
+  table,thead,tbody,tr,td{display:block;width:100%;}
+  thead{position:absolute;top:-9999px;left:-9999px;}
+  table{min-width:0;}
+  tbody tr:not(.group-header){border:1px solid var(--border-color);border-radius:8px;margin-bottom:10px;padding:4px 0;background:#fff;}
+  tbody tr.group-header{border-radius:8px;margin-bottom:6px;}
+  td{border:none;border-bottom:1px dashed #e2e8f0;text-align:right;padding:8px 10px;position:relative;padding-left:46%;}
+  td:last-child{border-bottom:none;}
+  td[data-label]::before{content:attr(data-label);position:absolute;left:10px;width:40%;text-align:left;font-weight:700;font-size:11px;color:var(--text-muted);text-transform:uppercase;}
+  .part-name{text-align:right;}
+  .table-responsive{border:none;overflow:visible;}
+}
+.login-box{max-width:380px;margin:60px auto;background:#fff;border-radius:14px;padding:30px;box-shadow:0 4px 25px rgba(0,0,0,0.08);text-align:center;}
+.login-box h3{margin:0 0 6px 0;}
+.login-box p{color:var(--text-muted);font-size:13px;margin:0 0 20px 0;}
+.login-box input{width:100%;padding:10px 12px;margin-bottom:12px;border:1px solid var(--border-color);border-radius:8px;font-size:14px;}
+.login-box button{width:100%;padding:11px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;}
+.login-box button:hover{background:var(--primary-dark);}
+.login-error{color:#dc2626;font-size:12.5px;margin-top:10px;min-height:16px;}
+.viewer-banner{background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:12.5px;padding:10px 16px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.admin-banner{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;font-size:12.5px;padding:10px 16px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.btn-logout{background:#e2e8f0;color:#334155;border:none;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;}
+.btn-logout:hover{background:#cbd5e1;}
+body.viewer-mode input,body.viewer-mode textarea{background:#f8fafc !important;color:#64748b;}
+body.viewer-mode .btn-mini.btn-ganti,body.viewer-mode .btn-save,body.viewer-mode .btn-export,body.viewer-mode .btn-restore{display:none !important;}
+#appShell{display:none;}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-box">
+  <h3>🔒 Login Admin</h3>
+  <p>Masuk sebagai admin untuk mengedit data. Tidak login = mode lihat saja (tamu).</p>
+  <input type="email" id="loginEmail" placeholder="Email admin">
+  <input type="password" id="loginPassword" placeholder="Password">
+  <button onclick="doLogin()">Masuk sebagai Admin</button>
+  <div class="login-error" id="loginError"></div>
+  <button style="background:#e2e8f0;color:#334155;margin-top:8px;" onclick="continueAsGuest()">Lanjutkan sebagai Tamu (lihat saja)</button>
+</div>
+
+<div id="appShell">
+<div class="container">
+  <div class="header-title">
+    <div class="header-left">
+      <h2>⚙️ Monitoring Usia Pakai Part Mesin</h2>
+      <div class="factory-name">PT BPSJ SS2 POM</div>
+      <div class="author-glow">BY BASUKI WIDIYANTO</div>
+    </div>
+    <div class="header-right">
+      <p><strong>Sistem Pelacakan Running Hours (HM)</strong><br>Komponen Pabrik Kelapa Sawit</p>
+    </div>
+  </div>
+
+  <div id="roleBanner"></div>
+
+  <div class="sync-banner" id="syncBanner">☁️ Menyambungkan ke database...</div>
+
+  <div class="print-header" id="printHeader">
+    <table class="print-header-table"><tr>
+      <td><div class="print-title">PT BPSJ SS2 PALM OIL MILL</div><div class="print-sub" id="printStasiunTitle">LAPORAN MONITORING USIA PAKAI PART MESIN</div></td>
+      <td style="text-align:right;width:40%;"><div class="print-sub"><strong>Dokumen:</strong> Maintenance / Part Tracking</div><div class="print-sub"><strong>Dicetak Pada:</strong> <span id="printCurrentDate"></span></div></td>
+    </tr></table>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="section section-dashboard" id="sec_dashboard">
+    <div class="section-header-flex">
+      <div class="section-header-left">
+        <h3>📊 Ringkasan Semua Stasiun</h3>
+        <p class="section-desc" id="lastSavedInfo">Memuat data...</p>
+      </div>
+    </div>
+    <div class="dash-counts" id="dashboardCounts"></div>
+    <p class="section-desc" style="margin-bottom:8px;font-weight:700;color:var(--text-main);">🔥 Prioritas perlu perhatian (urut paling mendesak):</p>
+    <div id="dashboardPriority"></div>
+  </div>
+
+  <div id="stationsContainer"></div>
+
+  <div class="btn-container">
+    <button class="btn-save" onclick="simpanDataManual()">💾 Hitung &amp; Simpan Sekarang</button>
+    <button class="btn-export" onclick="exportJSONBackup()">☁️ Ekspor Backup JSON</button>
+    <button class="btn-restore" onclick="triggerRestore()">📂 Pulihkan (Restore) JSON</button>
+    <input type="file" id="fileRestore" accept=".json" style="display:none;" onchange="restoreJSON(event)">
+  </div>
+
+  <div class="app-footer" style="text-align:center;margin-top:35px;padding-top:20px;border-top:1px solid var(--border-color);color:var(--text-muted);font-size:12.5px;">
+    <p style="margin:0 0 4px 0;font-weight:600;">© Hak Cipta Dilindungi Undang-Undang</p>
+    <p style="margin:0;font-weight:700;color:var(--primary);">Copyright ©2026 Basuki W</p>
+  </div>
+
+  <div class="print-footer">
+    <table class="sig-table"><tr>
+      <td width="33%">Dibuat Oleh,<br><br><br><br><strong>( Basuki Widiyanto )</strong><br>Mandor Mekanik</td>
+      <td width="33%">Diperiksa Oleh,<br><br><br><br><strong>( ................................ )</strong><br>Kepala Bagian</td>
+      <td width="33%">Disetujui Oleh,<br><br><br><br><strong>( ................................ )</strong><br>Maintenance Engineer</td>
+    </tr></table>
+  </div>
+</div>
+</div>
+
+<div class="modal-overlay" id="historyModal">
+  <div class="modal-box">
+    <h4 id="historyTitle">Riwayat Penggantian</h4>
+    <div id="historyContent"></div>
+    <button class="modal-close" onclick="closeHistory()">Tutup</button>
+  </div>
+</div>
+
+<!-- ====== FIREBASE SDK ====== -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+
+<script>
+/* =======================================================
+   1) KONFIGURASI FIREBASE ANDA
+   ======================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyDtvknZrzfREHuArU6aLG3SKpwFc6lSOag",
+  authDomain: "monitoring-pks-bpsj-ss2.firebaseapp.com",
+  projectId: "monitoring-pks-bpsj-ss2",
+  storageBucket: "monitoring-pks-bpsj-ss2.firebasestorage.app",
+  messagingSenderId: "580790861392",
+  appId: "1:580790861392:web:10b5486d450efb88071b55",
+  measurementId: "G-0HJ2DZES4N"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const DOC_REF = db.collection('monitoring').doc('data-pks');
+
+let isAdmin = false;
+let unsubscribeSnapshot = null;
+
+// ---------- LOGIN / LOGOUT ----------
+function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.innerText = '';
+  if(!email || !password){ errEl.innerText = 'Isi email dan password.'; return; }
+  auth.signInWithEmailAndPassword(email, password)
+    .catch(err=>{
+      errEl.innerText = 'Login gagal: email atau password salah.';
+      console.error(err);
+    });
+}
+
+function continueAsGuest(){
+  isAdmin = false;
+  enterApp();
+}
+
+function doLogout(){
+  auth.signOut().then(()=>{ location.reload(); });
+}
+
+auth.onAuthStateChanged(user=>{
+  if(user){
+    isAdmin = true;
+    enterApp(user.email);
+  }
+});
+
+function enterApp(adminEmail){
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  document.body.classList.toggle('viewer-mode', !isAdmin);
+  const banner = document.getElementById('roleBanner');
+  if(isAdmin){
+    banner.innerHTML = `<div class="admin-banner">🟢 Mode Admin (${adminEmail}) — Anda bisa mengedit data.<button class="btn-logout" onclick="doLogout()">Logout</button></div>`;
+  }else{
+    banner.innerHTML = `<div class="viewer-banner">👁️ Mode Tamu — hanya bisa melihat data, tidak bisa mengedit.<button class="btn-logout" onclick="doLogout()" style="display:none;"></button></div>`;
+  }
+  buildStationsHTML();
+  applyViewerLock();
+  listenToData();
+}
+
+function applyViewerLock(){
+  if(isAdmin) return;
+  document.querySelectorAll('input, textarea').forEach(el=>{ el.disabled = true; });
+}
+
+const BULAN=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+
+const STATIONS=[
+  {key:'p',name:'Press',sectionClass:'section-press',title:'📌 Press Station (Press No. 1 - 8)',desc:'Komponen utama: Worm Screw & Filter Cage',units:8,unitLabel:i=>`Press No. ${i}`,parts:['Worm Screw','Filter Cage']},
+  {key:'rm',name:'Ripple Mill',sectionClass:'section-rm',title:'📌 Ripple Mill (Unit 1 - 4)',desc:'Komponen utama: Steelroot & Square Bar',units:4,unitLabel:i=>`Ripple Mill ${i}`,parts:['Steelroot','Square Bar']},
+  {key:'efb',name:'EFB Press',sectionClass:'section-efb',title:'📌 EFB Press (Unit 1 - 4)',desc:'Komponen utama: Worm Screw & Filter Cage',units:4,unitLabel:i=>`EFB Press ${i}`,parts:['Worm Screw','Filter Cage']},
+  {key:'sh',name:'Shredder',sectionClass:'section-shredder',title:'📌 Shredder Station (Unit 1 - 3)',desc:'Komponen utama: Cutter Plate, Spacer, As & Plat Scraper',units:3,unitLabel:i=>`Shredder ${i}`,parts:['Cutter Plate As Panjang','Cutter Plate As Pendek','Spacer As Panjang','Spacer As Pendek','As Panjang','As Pendek','Plat Scraper As Pendek','Plate Scraper As Panjang']}
+];
+
+let appData={meta:{lastSaved:null},sectionUpdateDates:{},hma:{},parts:{},history:{}};
+let saveTimer=null;
+
+function partId(st,i,pIdx){return `${st}_${i}_${pIdx}`;}
+function unitKey(st,i){return `${st}_${i}`;}
+function todayISO(){const d=new Date();const off=d.getTimezoneOffset();return new Date(d.getTime()-off*60000).toISOString().slice(0,10);}
+function nowLabel(){const d=new Date();return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}, ${d.getDate()} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;}
+function formatTanggalID(iso){if(!iso)return '-';const [y,m,d]=iso.split('-');if(!y||!m||!d)return iso;return `${parseInt(d)} ${BULAN[parseInt(m)-1]} ${y}`;}
+function parseNum(str){if(str===undefined||str===null)return 0;const n=String(str).replace(/\D/g,'');return n===''?0:parseInt(n,10);}
+function fmtNum(n){return (n||0).toLocaleString('id-ID');}
+
+// ---------- BUILD TABLE MARKUP ----------
+function buildStationsHTML(){
+  const container=document.getElementById('stationsContainer');
+  container.innerHTML='';
+  STATIONS.forEach(st=>{
+    const sec=document.createElement('div');
+    sec.className=`section ${st.sectionClass}`;
+    sec.id=`sec_${st.key}`;
+    sec.innerHTML=`
+      <div class="section-header-flex">
+        <div class="section-header-left">
+          <h3>${st.title}</h3>
+          <p class="section-desc">${st.desc}</p>
+        </div>
+        <div class="section-header-right">
+          <div class="update-date-box"><span>Update Tgl:</span><input type="date" id="update_${st.key}" onchange="handleSectionDate('${st.key}',this.value)"></div>
+          <button class="btn-print" onclick="cetakStasiun('sec_${st.key}','${st.name.toUpperCase()} STATION')">🖨️ Cetak Report</button>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table id="table_${st.key}">
+          <thead><tr>
+            <th>Part</th><th>Tgl Ganti</th><th>HM Ganti</th><th>HM Target</th><th>Threshold %</th><th>Catatan</th><th>Usia (HM)</th><th>Estimasi Sisa</th><th>Status</th><th>Aksi</th>
+          </tr></thead>
+          <tbody id="tbody_${st.key}"></tbody>
+        </table>
+      </div>`;
+    container.appendChild(sec);
+
+    const tbody=sec.querySelector(`#tbody_${st.key}`);
+    for(let i=1;i<=st.units;i++){
+      const grpRow=tbody.insertRow();
+      grpRow.className='group-header';
+      grpRow.innerHTML=`<td colspan="10">${st.unitLabel(i)} &nbsp;—&nbsp; HM Hari Ini: <input type="text" placeholder="0" id="hma_${unitKey(st.key,i)}" oninput="onHmaInput(this)" onchange="onHmaChange('${st.key}',${i},this)"></td>`;
+
+      st.parts.forEach((partName,pIdx)=>{
+        const pid=partId(st.key,i,pIdx);
+        const row=tbody.insertRow();
+        row.innerHTML=`
+          <td class="part-name" data-label="Part">${partName}</td>
+          <td data-label="Tgl Ganti"><input type="date" id="tgl_${pid}" onchange="onFieldChange('${st.key}','tgl',${i},${pIdx},this.value)"></td>
+          <td data-label="HM Ganti"><input type="text" placeholder="0" id="hmg_${pid}" oninput="onHmgInput(this)" onchange="onFieldChange('${st.key}','hmg',${i},${pIdx},this.value)"></td>
+          <td data-label="HM Target"><input type="text" placeholder="0" id="target_${pid}" oninput="onHmgInput(this)" onchange="onFieldChange('${st.key}','target',${i},${pIdx},this.value)"></td>
+          <td data-label="Threshold %"><input type="text" placeholder="70" id="thr_${pid}" oninput="onHmgInput(this)" onchange="onFieldChange('${st.key}','threshold',${i},${pIdx},this.value)"></td>
+          <td data-label="Catatan"><textarea class="catatan" id="note_${pid}" onchange="onFieldChange('${st.key}','catatan',${i},${pIdx},this.value)"></textarea></td>
+          <td data-label="Usia (HM)"><span class="usia-badge usia-aman" id="usia_${pid}">0 HM</span></td>
+          <td data-label="Estimasi Sisa"><span class="est-badge usia-aman" id="est_${pid}">-</span></td>
+          <td data-label="Status"><span class="status-badge status-aman" id="status_${pid}">🟢 Aman</span></td>
+          <td data-label="Aksi">
+            <button class="btn-mini btn-ganti" onclick="handleGantiPart('${st.key}',${i},${pIdx})">🔄 Ganti</button>
+            <button class="btn-mini btn-riwayat" onclick="showHistory('${pid}','${partName}','${st.unitLabel(i)}')">🕒</button>
+          </td>`;
+      });
+    }
+  });
+  hydrateAll();
+  recalcAll();
+  updateDashboard();
+  if(!isAdmin) applyViewerLock();
+}
+
+function guardAdmin(){
+  if(!isAdmin){ alert('Anda dalam mode tamu (lihat saja). Login sebagai admin untuk mengedit.'); return false; }
+  return true;
+}
+
+function onHmaInput(input){const n=parseNum(input.value);input.value=n>0?fmtNum(n):'';}
+function onHmgInput(input){const n=parseNum(input.value);input.value=n>0?fmtNum(n):'';}
+
+function onHmaChange(stKey,i,input){
+  if(!guardAdmin())return;
+  const uKey=unitKey(stKey,i);
+  const newVal=parseNum(input.value);
+  const oldVal=appData.hma[uKey]||0;
+  if(oldVal>0 && newVal>0 && newVal<oldVal){
+    const stConf=STATIONS.find(s=>s.key===stKey);
+    const ok=confirm(`HM baru (${fmtNum(newVal)}) lebih KECIL dari HM sebelumnya (${fmtNum(oldVal)}) untuk ${stConf.unitLabel(i)}.\n\nYakin ini bukan salah ketik?`);
+    if(!ok){input.value=fmtNum(oldVal);return;}
+  }
+  appData.hma[uKey]=newVal;
+  scheduleSave();
+  recalcAll();
+  updateDashboard();
+}
+
+function onFieldChange(stKey,field,i,pIdx,value){
+  if(!guardAdmin())return;
+  const pid=partId(stKey,i,pIdx);
+  if(!appData.parts[pid])appData.parts[pid]={tgl:'',hmg:0,target:0,threshold:70,catatan:''};
+  if(field==='hmg'||field==='target'||field==='threshold'){
+    appData.parts[pid][field]=parseNum(value);
+  }else{
+    appData.parts[pid][field]=value;
+  }
+  scheduleSave();
+  recalcAll();
+  updateDashboard();
+}
+
+function handleSectionDate(stKey,value){
+  if(!guardAdmin())return;
+  appData.sectionUpdateDates[stKey]=value;
+  scheduleSave();
+}
+
+function handleGantiPart(stKey,i,pIdx){
+  if(!guardAdmin())return;
+  const uKey=unitKey(stKey,i);
+  const hma=appData.hma[uKey]||0;
+  if(hma<=0){alert('Isi dulu kolom "HM Hari Ini" pada mesin ini sebelum mencatat penggantian part.');return;}
+  const pid=partId(stKey,i,pIdx);
+  const stConf=STATIONS.find(s=>s.key===stKey);
+  const partName=stConf.parts[pIdx];
+  const ok=confirm(`Catat penggantian "${partName}" (${stConf.unitLabel(i)}) pada HM ${fmtNum(hma)} hari ini (${formatTanggalID(todayISO())})?\n\nData penggantian sebelumnya akan disimpan ke Riwayat.`);
+  if(!ok)return;
+  const old=appData.parts[pid]||{tgl:'',hmg:0,target:0,threshold:70,catatan:''};
+  if(old.tgl||old.hmg){
+    if(!appData.history[pid])appData.history[pid]=[];
+    appData.history[pid].push({tgl:old.tgl||'',hmg:old.hmg||0,dicatatPada:new Date().toISOString()});
+  }
+  appData.parts[pid]={...old,tgl:todayISO(),hmg:hma};
+  scheduleSave();
+  hydrateOnePart(stKey,i,pIdx);
+  recalcAll();
+  updateDashboard();
+}
+
+function showHistory(pid,partName,unitLabel){
+  const list=(appData.history[pid]||[]).slice().sort((a,b)=>new Date(b.dicatatPada)-new Date(a.dicatatPada));
+  document.getElementById('historyTitle').innerText=`🕒 Riwayat: ${partName} — ${unitLabel}`;
+  const content=document.getElementById('historyContent');
+  if(list.length===0){
+    content.innerHTML='<p class="priority-empty">Belum ada riwayat penggantian tercatat untuk part ini.</p>';
+  }else{
+    let rows=list.map(h=>`<tr><td>${formatTanggalID(h.tgl)}</td><td>${fmtNum(h.hmg)} HM</td></tr>`).join('');
+    content.innerHTML=`<table><thead><tr><th>Tgl Ganti</th><th>HM Saat Ganti</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
+  document.getElementById('historyModal').classList.add('active');
+}
+function closeHistory(){document.getElementById('historyModal').classList.remove('active');}
+
+// ---------- HYDRATE ----------
+function hydrateOnePart(stKey,i,pIdx){
+  const pid=partId(stKey,i,pIdx);
+  const p=appData.parts[pid]||{tgl:'',hmg:0,target:0,threshold:70,catatan:''};
+  const $tgl=document.getElementById(`tgl_${pid}`);if($tgl)$tgl.value=p.tgl||'';
+  const $hmg=document.getElementById(`hmg_${pid}`);if($hmg)$hmg.value=p.hmg?fmtNum(p.hmg):'';
+  const $target=document.getElementById(`target_${pid}`);if($target)$target.value=p.target?fmtNum(p.target):'';
+  const $thr=document.getElementById(`thr_${pid}`);if($thr)$thr.value=p.threshold?fmtNum(p.threshold):'';
+  const $note=document.getElementById(`note_${pid}`);if($note)$note.value=p.catatan||'';
+}
+
+function hydrateAll(){
+  STATIONS.forEach(st=>{
+    const $upd=document.getElementById(`update_${st.key}`);
+    if($upd)$upd.value=appData.sectionUpdateDates[st.key]||'';
+    for(let i=1;i<=st.units;i++){
+      const $hma=document.getElementById(`hma_${unitKey(st.key,i)}`);
+      const val=appData.hma[unitKey(st.key,i)]||0;
+      if($hma)$hma.value=val?fmtNum(val):'';
+      st.parts.forEach((_,pIdx)=>hydrateOnePart(st.key,i,pIdx));
+    }
+  });
+}
+
+// ---------- KALKULASI HASIL & STATUS ----------
+function recalcAll(){
+  STATIONS.forEach(st=>{
+    for(let i=1;i<=st.units;i++){
+      const hma=appData.hma[unitKey(st.key,i)]||0;
+      st.parts.forEach((_,pIdx)=>{
+        const pid=partId(st.key,i,pIdx);
+        const p=appData.parts[pid]||{tgl:'',hmg:0,target:0,threshold:70,catatan:''};
+        const usiaEl=document.getElementById(`usia_${pid}`);
+        const statusEl=document.getElementById(`status_${pid}`);
+        const estEl=document.getElementById(`est_${pid}`);
+        const ganti=p.hmg||0, target=p.target||0, threshold=(p.threshold&&p.threshold>0)?p.threshold:70;
+
+        if(hma>0 && ganti>0 && hma<ganti){
+          if(usiaEl){usiaEl.innerText='HM tidak valid';usiaEl.className='usia-badge usia-invalid';}
+          if(statusEl){statusEl.innerHTML='⚪ Invalid';statusEl.className='status-badge status-invalid';}
+          if(estEl){estEl.innerText='-';estEl.className='est-badge usia-invalid';}
+          return;
+        }
+
+        let usia = (hma > 0 && ganti > 0) ? (hma - ganti) : 0;
+        if(usiaEl){
+          usiaEl.innerText = (hma > 0 && ganti > 0) ? `${fmtNum(usia)} HM` : '0 HM';
+        }
+
+        let sisa = target > 0 ? (target - usia) : 0;
+        let pct = target > 0 ? (usia / target) * 100 : 0;
+
+        if(estEl){
+          if(target > 0 && hma > 0 && ganti > 0){
+            estEl.innerText = sisa > 0 ? `${fmtNum(sisa)} HM lagi` : 'Habis / Overdue';
+          } else {
+            estEl.innerText = '-';
+          }
+        }
+
+        if(statusEl){
+          if(!target || !ganti || !hma){
+            statusEl.innerHTML = '🟢 Aman';
+            statusEl.className = 'status-badge status-aman';
+          } else if(pct >= 100 || sisa <= 0){
+            statusEl.innerHTML = '🔴 Ganti Sekarang';
+            statusEl.className = 'status-badge status-danger';
+          } else if(pct >= threshold){
+            statusEl.innerHTML = '🟡 Siap-siap';
+            statusEl.className = 'status-badge status-warning';
+          } else {
+            statusEl.innerHTML = '🟢 Aman';
+            statusEl.className = 'status-badge status-aman';
+          }
+        }
+      });
+    }
+  });
+}
+
+// ---------- DASHBOARD & REKAP ----------
+function updateDashboard(){
+  let totalDanger = 0, totalWarning = 0, totalAman = 0, totalInvalid = 0;
+  let priorityList = [];
+
+  STATIONS.forEach(st=>{
+    for(let i=1;i<=st.units;i++){
+      const hma=appData.hma[unitKey(st.key,i)]||0;
+      st.parts.forEach((partName,pIdx)=>{
+        const pid=partId(st.key,i,pIdx);
+        const p=appData.parts[pid]||{tgl:'',hmg:0,target:0,threshold:70,catatan:''};
+        const ganti=p.hmg||0, target=p.target||0, threshold=(p.threshold&&p.threshold>0)?p.threshold:70;
+
+        if(hma>0 && ganti>0 && hma<ganti){
+          totalInvalid++;
+          return;
+        }
+
+        if(hma>0 && ganti>0 && target>0){
+          let usia = hma - ganti;
+          let sisa = target - usia;
+          let pct = (usia / target) * 100;
+
+          if(pct >= 100 || sisa <= 0){
+            totalDanger++;
+            priorityList.push({ pid, stKey:st.key, unitName:st.unitLabel(i), partName, sisa, status:'danger', pct });
+          } else if(pct >= threshold){
+            totalWarning++;
+            priorityList.push({ pid, stKey:st.key, unitName:st.unitLabel(i), partName, sisa, status:'warning', pct });
+          } else {
+            totalAman++;
+          }
+        } else {
+          totalAman++;
+        }
+      });
+    }
+  });
+
+  const countsEl = document.getElementById('dashboardCounts');
+  if(countsEl){
+    countsEl.innerHTML = `
+      <div class="dash-box dash-danger"><span class="num">${totalDanger}</span>Perlu Ganti</div>
+      <div class="dash-box dash-warning"><span class="num">${totalWarning}</span>Siap-siap</div>
+      <div class="dash-box dash-aman"><span class="num">${totalAman}</span>Aman</div>
+      ${totalInvalid > 0 ? `<div class="dash-box dash-invalid"><span class="num">${totalInvalid}</span>Data Invalid</div>` : ''}
+    `;
+  }
+
+  priorityList.sort((a,b)=>a.sisa - b.sisa);
+
+  const prioEl = document.getElementById('dashboardPriority');
+  if(prioEl){
+    if(priorityList.length === 0){
+      prioEl.innerHTML = '<div class="priority-empty">✅ Semua komponen dalam kondisi aman dan baik.</div>';
+    } else {
+      prioEl.innerHTML = priorityList.map(item=>`
+        <div class="priority-item" onclick="document.getElementById('sec_${item.stKey}').scrollIntoView({behavior:'smooth'})">
+          <div class="priority-left">
+            ${item.status==='danger'?'🔴':'🟡'} <strong>${item.partName}</strong> (${item.unitName})
+            <small>Sisa: ${item.sisa<=0?'0 (Overdue)':fmtNum(item.sisa)+' HM'} | Terpakai: ${item.pct.toFixed(1)}%</small>
+          </div>
+          <span class="status-badge ${item.status==='danger'?'status-danger':'status-warning'}">
+            ${item.status==='danger'?'Ganti Sekarang':'Siap-siap'}
+          </span>
+        </div>
+      `).join('');
+    }
+  }
+}
+
+// ---------- FIREBASE REALTIME SYNC & SAVE ----------
+function listenToData(){
+  const syncEl = document.getElementById('syncBanner');
+  unsubscribeSnapshot = DOC_REF.onSnapshot(doc => {
+    if(doc.exists){
+      const data = doc.data();
+      if(data){
+        appData = data;
+        hydrateAll();
+        recalcAll();
+        updateDashboard();
+        if(!isAdmin) applyViewerLock();
+        if(syncEl) syncEl.innerHTML = `☁️ Terhubung ke database cloud (${nowLabel()})`;
+        const infoEl = document.getElementById('lastSavedInfo');
+        if(infoEl && data.meta && data.meta.lastSaved){
+          infoEl.innerText = `Terakhir disimpan: ${data.meta.lastSaved}`;
+        }
+      }
+    } else {
+      if(syncEl) syncEl.innerHTML = `☁️ Database kosong. Siap diisi data baru.`;
+    }
+  }, err => {
+    console.error('Firestore snapshot error:', err);
+    if(syncEl) syncEl.innerHTML = `⚠️ Koneksi database terputus / Mode Offline.`;
+  });
+}
+
+function scheduleSave(){
+  if(!isAdmin) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    simpanKeCloud();
+  }, 1500);
+}
+
+function simpanKeCloud(){
+  if(!isAdmin) return;
+  appData.meta = appData.meta || {};
+  appData.meta.lastSaved = nowLabel();
+  DOC_REF.set(appData)
+    .then(()=>{
+      console.log('Data tersimpan ke Firestore.');
+    })
+    .catch(err=>{
+      console.error('Gagal menyimpan ke Firestore:', err);
+      alert('Gagal menyimpan data ke Cloud: ' + err.message);
+    });
+}
+
+function simpanDataManual(){
+  if(!guardAdmin()) return;
+  recalcAll();
+  updateDashboard();
+  simpanKeCloud();
+  alert('✅ Data berhasil diperbarui dan disimpan ke cloud database!');
+}
+
+// ---------- EXPORT & RESTORE JSON BACKUP ----------
+function exportJSONBackup(){
+  const jsonStr = JSON.stringify(appData, null, 2);
+  const blob = new Blob([jsonStr], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `backup_pks_bpsj_${todayISO()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function triggerRestore(){
+  if(!guardAdmin()) return;
+  document.getElementById('fileRestore').click();
+}
+
+function restoreJSON(e){
+  if(!guardAdmin()) return;
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt){
+    try {
+      const imported = JSON.parse(evt.target.result);
+      if(imported && (imported.parts || imported.hma)){
+        appData = imported;
+        hydrateAll();
+        recalcAll();
+        updateDashboard();
+        simpanKeCloud();
+        alert('✅ Data berhasil dipulihkan dari file JSON!');
+      } else {
+        alert('File JSON tidak valid / format salah.');
+      }
+    } catch(err){
+      alert('Gagal membaca file JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function cetakStasiun(secId, titleStr){
+  document.getElementById('printStasiunTitle').innerText = titleStr;
+  document.getElementById('printCurrentDate').innerText = formatTanggalID(todayISO());
+  
+  const sections = document.querySelectorAll('.section');
+  sections.forEach(s => {
+    if(s.id !== secId && s.id !== 'sec_dashboard') s.style.display = 'none';
+  });
+  
+  window.print();
+  
+  sections.forEach(s => s.style.display = 'block');
+}
+</script>
+</body>
+</html>
