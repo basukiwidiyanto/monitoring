@@ -979,5 +979,36 @@ function cetakStasiun(secId, titleStr){
   sections.forEach(s => s.style.display = 'block');
 }
 </script>
+  <!-- ===================================================================
+     TAMBAHAN FITUR (tempel TEPAT DI ATAS </body> paling bawah)
+     1) Tombol Hapus per baris riwayat
+     2) Tombol Cetak PDF Riwayat (formal, 3 tanda tangan)
+     3) Tombol Cetak per mesin (hanya mesin yang dipilih + catatan part)
+     4) Nama part font besar & tebal
+     =================================================================== -->
+<style>
+/* ---- Nama part besar & tebal ---- */
+.part-name{font-size:18px;font-weight:900;color:#0f172a;letter-spacing:0.2px;}
+@media (max-width:768px){.part-name{font-size:17px;}}
+
+/* ---- Tombol baru ---- */
+.btn-cetak-mesin{background:#0f172a;color:#fff;border:none;border-radius:7px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;margin-left:10px;vertical-align:middle;}
+.btn-cetak-mesin:hover{background:#1e293b;}
+.btn-hapus{background:#fee2e2;color:#b91c1c;}
+.btn-hapus:hover{background:#fecaca;}
+.btn-cetak-riwayat{background:#0284c7;color:#fff;border:none;padding:9px 16px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;margin-bottom:12px;}
+.btn-cetak-riwayat:hover{background:#0369a1;}
+body.viewer-mode .btn-hapus{display:none !important;}
+
+/* ---- Area cetak riwayat (hanya tampil saat cetak) ---- */
+#histPrintArea{display:none;}
+.hp-wrap{font-family:'Times New Roman',Georgia,serif;color:#000;}
+.hp-kop{text-align:center;border-bottom:3px double #000;padding-bottom:8px;margin-bottom:14px;}
+.hp-kop .co{font-size:20px;font-weight:bold;letter-spacing:1px;}
+.hp-kop .doc{font-size:15px;font-weight:bold;margin-top:6px;text-decoration:underline;}
+.hp-info{width:100%;border-collapse:collapse;margin-bottom:10px;}
+.hp-info td{border:none;padding:2px 4px;text-align:left;vertical-align:top;}
+.hp-info td.k{width:170px;font-weight:bold;}
+.hp-info td.c{width:12px;}
 </body>
 </html>
